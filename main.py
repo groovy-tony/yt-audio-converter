@@ -10,7 +10,7 @@ def video_to_audio(url):
         # on_complete_callback=complete_func
     )
     video = yt.streams.get_audio_only().download(
-        output_path="YT Audio/", filename_prefix=f"{yt.author} - "
+        output_path="YT Audio Files/", filename_prefix=f"{yt.author} - "
     )
 
     audio = AudioFileClip(video)
