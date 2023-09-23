@@ -7,17 +7,17 @@ import os
 def draw_menu():
     options = ["Enter a YouTube URL", "Search YouTube", "Enter YouTube Playlist"]
     menu = TerminalMenu(options, title="YouTube Audio Downloader")
-    menu_index = menu.show()
-    match menu_index:
+    idx = menu.show()
+    match idx:
         case 0:
             video_to_audio(input("Enter URL:\n"))
         case 1:
-            raise NotImplementedError
+            yt_search(input("Enter search query:\n"))
         case 2:
             raise NotImplementedError
 
 
-def video_to_audio(url):
+def video_to_audio(url: str):
     yt = YouTube(
         url,
         # on_progress_callback=progress_func,
@@ -31,6 +31,16 @@ def video_to_audio(url):
     audio.write_audiofile(f'{video.split(".")[0]}.mp3')
 
     os.remove(video)
+
+
+def yt_search(query: str):
+    results = Search(query).results
+    titles = []
+    for r in results:
+        titles.append(r.title)
+    menu = TerminalMenu(titles, title="Search results:")
+    idx = menu.show()
+    video_to_audio(results[idx].watch_url)
 
 
 if __name__ == "__main__":
