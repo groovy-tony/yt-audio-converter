@@ -8,8 +8,13 @@ def draw_menu():
     options = ["Enter a YouTube URL", "Search YouTube", "Enter YouTube Playlist"]
     menu = TerminalMenu(options, title="YouTube Audio Downloader")
     menu_index = menu.show()
-    if menu_index == 0:
-        video_to_audio(input("Enter URL:\n"))
+    match menu_index:
+        case 0:
+            video_to_audio(input("Enter URL:\n"))
+        case 1:
+            raise NotImplementedError
+        case 2:
+            raise NotImplementedError
 
 
 def video_to_audio(url):
