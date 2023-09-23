@@ -34,13 +34,19 @@ def video_to_audio(url: str):
 
 
 def yt_search(query: str):
-    results = Search(query).results
-    titles = []
-    for r in results:
-        titles.append(r.title)
-    menu = TerminalMenu(titles, title="Search results:")
-    idx = menu.show()
-    video_to_audio(results[idx].watch_url)
+    src = Search(query)
+    results = src.results
+    while True:
+        titles = []
+        for r in results:
+            titles.append(f"{r.author} - {r.title}")
+        titles.append("--- Show More Results ---")
+        menu = TerminalMenu(titles, title="Search results:")
+        idx = menu.show()
+        if idx == len(results):
+            src.get_next_results()
+            continue
+        video_to_audio(results[idx].watch_url)
 
 
 if __name__ == "__main__":
