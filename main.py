@@ -1,6 +1,15 @@
 from pytube import YouTube, Search
 from moviepy.editor import AudioFileClip
+from simple_term_menu import TerminalMenu
 import os
+
+
+def draw_menu():
+    options = ["Enter a YouTube URL", "Search YouTube", "Enter YouTube Playlist"]
+    menu = TerminalMenu(options, title="YouTube Audio Downloader")
+    menu_index = menu.show()
+    if menu_index == 0:
+        video_to_audio(input("Enter URL:\n"))
 
 
 def video_to_audio(url):
@@ -20,4 +29,5 @@ def video_to_audio(url):
 
 
 if __name__ == "__main__":
-    video_to_audio("https://www.youtube.com/watch?v=jJPchQvTMhw")
+    draw_menu()
+    # video_to_audio("https://www.youtube.com/watch?v=jJPchQvTMhw")
