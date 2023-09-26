@@ -2,6 +2,7 @@ from pytube import YouTube, Search
 from moviepy.editor import AudioFileClip
 from simple_term_menu import TerminalMenu
 import os
+import sys
 
 
 def draw_menu():
@@ -33,20 +34,21 @@ def video_to_audio(url: str):
     os.remove(video)
 
 
-def yt_search(query: str):
+def yt_search(query: str, results=None):
     src = Search(query)
-    results = src.results
-    while True:
-        titles = []
-        for r in results:
-            titles.append(f"{r.author} - {r.title}")
-        titles.append("--- Show More Results ---")
-        menu = TerminalMenu(titles, title="Search results:")
-        idx = menu.show()
-        if idx == len(results):
-            src.get_next_results()
-            continue
-        video_to_audio(results[idx].watch_url)
+    if results is None:
+        results = src.results
+    titles = []
+    for r in results:
+        titles.append(f"{r.author} - {r.title}")
+    titles.append("--- Show More Results ---")
+    menu = TerminalMenu(titles, title="Search results:")
+    idx = menu.show()
+    if idx == len(results):
+        src.get_next_results()
+        yt_search(query, results)
+
+    video_to_audio(results[idx].watch_url)
 
 
 if __name__ == "__main__":
