@@ -1,4 +1,5 @@
 from pytube import YouTube, Search
+from yt_dlp import YoutubeDL
 from moviepy.editor import AudioFileClip
 from simple_term_menu import TerminalMenu
 import os
@@ -19,19 +20,18 @@ def draw_menu():
 
 
 def video_to_audio(url: str):
-    yt = YouTube(
-        url,
-        # on_progress_callback=progress_func,
-        # on_complete_callback=complete_func
-    )
-    video = yt.streams.get_audio_only().download(
-        output_path="YT Audio Files/", filename_prefix=f"{yt.author} - "
-    )
+    yt_dlp_opts = {
+        "format": "m4a/bestaudio/best",
+        "postprocessors": [
+            {  # Extract audio using ffmpeg
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "m4a",
+            }
+        ],
+    }
 
-    audio = AudioFileClip(video)
-    audio.write_audiofile(f'{video.split(".")[0]}.mp3')
-
-    os.remove(video)
+    with YoutubeDL(yt_dlp_opts) as ydl:
+        error = ydl.download(url)
 
 
 def yt_search(query: str, results=None):
