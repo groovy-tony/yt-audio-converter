@@ -36,7 +36,7 @@ def video_to_audio(url: str):
 
 def yt_search(query: str, results=None):
     results = YoutubeSearch(query, max_results=10).to_dict()
-    titles = [item['title'] for item in results]
+    titles = [f"{item['channel']} - {item['title']} - {item['duration']} - {item['publish_time']}" for item in results]
     menu = TerminalMenu(titles)
     idx = menu.show()
     selection = results[idx]
