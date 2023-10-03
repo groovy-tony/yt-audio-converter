@@ -21,7 +21,7 @@ def draw_menu():
         case 2:
             raise NotImplementedError
     menu = TerminalMenu(
-        ["Yes", "No"], title="Copy downloaded files to Dropbox? ({db_path})"
+        ["Yes", "No"], title=f"Copy downloaded files to Dropbox? ({db_path})"
     )
     idx = menu.show()
     if idx:
@@ -47,6 +47,7 @@ def video_to_audio(url: str):
 def update_dropbox():
     # get $HOME path and append Dropbox/YT \Audio file
     # move all .m4a files to it
+    print(f"Copying downloaded files to {db_path}...")
     try:
         os.mkdir(db_path)
     except FileExistsError:
@@ -54,6 +55,7 @@ def update_dropbox():
     for file in glob.glob("*.m4a"):
         print(file)
         os.replace(file, db_path + file)
+    print("Done.")
 
 
 def yt_search(query: str, max_results=None):
