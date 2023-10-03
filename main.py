@@ -22,7 +22,7 @@ def draw_menu():
         ["Yes", "No"], title=f"Copy downloaded files to Dropbox? ({db_path})"
     )
     idx = menu.show()
-    if idx:
+    if not idx:
         update_dropbox()
 
 
