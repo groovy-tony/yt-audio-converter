@@ -71,6 +71,6 @@ def yt_search(query: str, max_results=None):
 
 
 if __name__ == "__main__":
-    update_dropbox()
+    # update_dropbox()
     draw_menu()
     # video_to_audio("https://www.youtube.com/watch?v=jJPchQvTMhw")
