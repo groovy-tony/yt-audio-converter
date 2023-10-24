@@ -4,7 +4,8 @@ from simple_term_menu import TerminalMenu
 import glob
 import pprint
 
-db_path = os.environ["HOME"] + "/Dropbox/YT Audio Files/"
+directory = "Library"
+db_path = f"{os.environ['HOME']}/Dropbox/{directory}"
 
 
 def draw_menu():
@@ -85,7 +86,7 @@ def dl_playlist(url: str):
 def video_to_audio(url: str):
     yt_dlp_opts = {
         "format": "m4a/bestaudio/best",
-        "outtmpl": {"default": "Library/%(uploader)s - %(title)s.%(ext)s"},
+        "outtmpl": {"default": directory + "/%(uploader)s - %(title)s.%(ext)s"},
         "postprocessors": [
             {
                 "key": "FFmpegExtractAudio",
@@ -107,7 +108,7 @@ def update_dropbox():
         os.mkdir(db_path)
     except FileExistsError:
         pass
-    for file in glob.glob("*.m4a"):
+    for file in glob.glob("Library/*.m4a"):
         print(file)
         os.replace(file, db_path + file)
     print("Done.")
