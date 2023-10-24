@@ -9,36 +9,41 @@ db_path = f"{os.environ['HOME']}/Dropbox/{directory}"
 
 
 def draw_menu():
-    options = [
-        "Enter a YouTube URL",
-        "Search YouTube",
-        "Enter Playlist or Channel URL",
-        "Sync to Dropbox",
-    ]
-    menu = TerminalMenu(options, title="YouTube Audio Downloader")
-    idx = menu.show()
-    match idx:
-        case 0:
-            video_to_audio(input("Enter URL:\n"))
-        case 1:
-            yt_search(input("Enter search query:\n"))
-        case 2:
-            dl_playlist(
-                # "https://www.youtube.com/playlist?list=PLKn4Z-msM-9J4gIaaXMs8l-Jr0MW5ySTR"  # Vormithrax
-                # "https://www.youtube.com/channel/UCx2bHtrpvAW5tt72GAi0ULQ"  # The Jeffster
-                "https://www.youtube.com/watch?v=1lwDO1HUL1M&list=PLN0q19AZLbSd4epwHZYIsW4gqFUkHyhOd"  # Polyphia - The Most Hated
-                # "https://www.youtube.com/watch?v=83YDGKp3Ui0&list=PLKn4Z-msM-9JdzOCYsIVuAyciRaQ6BejC"
-            )
-        case 3:
-            update_dropbox()
-            exit()
+    keep_running = True
+    while keep_running:
+        options = [
+            "Enter a YouTube URL",
+            "Search YouTube",
+            "Enter Playlist or Channel URL",
+            "Sync to Dropbox",
+            "Exit",
+        ]
+        menu = TerminalMenu(options, title="YouTube Audio Downloader")
+        idx = menu.show()
+        match idx:
+            case 0:
+                video_to_audio(input("Enter URL:\n"))
+            case 1:
+                yt_search(input("Enter search query:\n"))
+            case 2:
+                dl_playlist(
+                    # "https://www.youtube.com/playlist?list=PLKn4Z-msM-9J4gIaaXMs8l-Jr0MW5ySTR"  # Vormithrax
+                    # "https://www.youtube.com/channel/UCx2bHtrpvAW5tt72GAi0ULQ"  # The Jeffster
+                    "https://www.youtube.com/watch?v=1lwDO1HUL1M&list=PLN0q19AZLbSd4epwHZYIsW4gqFUkHyhOd"  # Polyphia - The Most Hated
+                    # "https://www.youtube.com/watch?v=83YDGKp3Ui0&list=PLKn4Z-msM-9JdzOCYsIVuAyciRaQ6BejC"
+                )
+            case 3:
+                update_dropbox()
+                exit()
+            case 4:
+                keep_running = False
 
-    menu = TerminalMenu(
-        ["Yes", "No"], title=f"Copy downloaded files to Dropbox? ({db_path})"
-    )
-    idx = menu.show()
-    if not idx:
-        update_dropbox()
+        menu = TerminalMenu(
+            ["Yes", "No"], title=f"Copy downloaded files to Dropbox? ({db_path})"
+        )
+        idx = menu.show()
+        if not idx:
+            update_dropbox()
 
 
 def dl_playlist(url: str):
