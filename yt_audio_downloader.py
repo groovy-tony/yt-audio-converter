@@ -5,7 +5,7 @@ import glob
 import pprint
 
 directory = "Library"
-db_path = f"{os.environ['HOME']}/Dropbox/{directory}"
+db_path = f"{os.environ['HOME']}/Dropbox/"
 
 
 def draw_menu():
@@ -75,7 +75,8 @@ def dl_playlist(url: str):
     }
 
     with YoutubeDL(yt_dlp_opts) as ydl:
-        info = ydl.extract_info(url)
+        # TODO: this extracts video info twice, maybe figure out another way to determine error state
+        info = ydl.extract_info(url, download=False)
         error = ydl.download(url)
         # pprint.pprint(info)
         print("--- Downloading playlist... ---")
@@ -102,7 +103,7 @@ def video_to_audio(url: str):
 
     with YoutubeDL(yt_dlp_opts) as ydl:
         info = ydl.extract_info(url)
-        error = ydl.download(url)
+        # error = ydl.download(url)
 
 
 def update_dropbox():
